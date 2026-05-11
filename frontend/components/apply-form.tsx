@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { getApiBaseUrl } from "@/lib/utils";
 import { applicationWhatsAppMessage, openWhatsAppMessage } from "@/lib/whatsapp";
 
 type Status = { type: "success" | "error"; message: string } | null;
@@ -40,11 +41,7 @@ export function ApplyForm() {
     };
 
     try {
-      if (!process.env.NEXT_PUBLIC_API_URL) {
-        throw new Error("NEXT_PUBLIC_API_URL is not configured.");
-      }
-
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, "")}/api/apply`, {
+      const response = await fetch(`${getApiBaseUrl()}/api/apply`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
